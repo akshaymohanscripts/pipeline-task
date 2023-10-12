@@ -12,7 +12,7 @@ pipeline {
 
 environment{
     shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-    git-tag-commit = sh(returnStdout: true, script: 'git rev-list -n 1 v1.0.0-test').trim().take(8)
+    gittagcommit = sh(returnStdout: true, script: 'git rev-list -n 1 v1.0.0-test').trim().take(8)
 }
     stages {
         stage('Build') {
