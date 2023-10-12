@@ -10,10 +10,16 @@ pipeline {
     string(name: 'DeployTo', defaultValue: "DEV", description: 'Pick environment to deploy to')
   }
 
+environment{
+    shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
+}
     stages {
         stage('Build') {
             steps {
-                echo 'Building...'
+                script{
+                    setBuildName(buildName: "${params.DeployTo}: ${env.shortCommit}")
+                }
+                
                 
             }
         }
@@ -24,4 +30,11 @@ pipeline {
             }
         }
     }
+}
+
+String setBuildName(Map parameters = [:]) {
+
+  echo 'setBuildName parameters: ' + parameters
+  def buildName = parameters.get('buildName')  
+  currentBuild.displayName = buildName
 }
