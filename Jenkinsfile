@@ -18,7 +18,8 @@ environment{
         stage('Build') {
             steps {
                 script{
-                    setBuildName(buildName: "${params.git-tag-commit}: ${env.shortCommit}")
+                    //setBuildName(buildName: "${params.git-tag-commit}: ${env.shortCommit}")
+                    sh "echo hello"
                 }
                 
                 
