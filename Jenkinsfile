@@ -12,7 +12,7 @@ pipeline {
 
 environment{
     shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-    gittagcommit = sh(returnStdout: true, script: 'git rev-list -n -1 "v.123-test"').trim().take(8)
+    //gittagcommit = sh(returnStdout: true, script: 'git rev-list -n -1 "v.123-test"').trim().take(8)
 }
     stages {
         stage('Build') {
@@ -26,7 +26,10 @@ environment{
         }
         stage('Test') {
             steps {
-                echo 'Testing.23123'
+                withAWS(region:'us-east-1',credentials:'aws_id')
+                {
+                    sh 'aws s3 ls'
+                }
                 
             }
         }
