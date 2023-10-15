@@ -21,7 +21,7 @@ environment{
             steps {
                 script{
                     //setBuildName(buildName: "${params.git-tag-commit}: ${env.shortCommit}")
-                    sh "echo hello 123"
+                    sh "echo hello 12"
                 }
                 
                 
