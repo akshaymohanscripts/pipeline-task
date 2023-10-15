@@ -29,8 +29,11 @@ environment{
             }
         }
                 stage(" execute Ansible") {
+                    
            steps {
-                ansiblePlaybook disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'apache.yml'
+            script {sh "ls -ltr"
+            sh "pwd"}
+                ansiblePlaybook (disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'apache.yml')
             }    
         } 
     stage('Building our image') {
