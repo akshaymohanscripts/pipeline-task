@@ -13,6 +13,8 @@ pipeline {
 environment{
     shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
     //gittagcommit = sh(returnStdout: true, script: 'git rev-list -n -1 "v.123-test"').trim().take(8)
+    registry = "akshaymohan340/application"
+    registryCredential = 'dockerhub_id'
 }
     stages {
         stage('Build') {
@@ -25,6 +27,22 @@ environment{
                 
             }
         }
+    stage('Building our image') {
+    steps{
+    script {
+    dockerImage = docker.build registry + ":${env.shortCommit}"
+    }
+    }
+    }
+    stage('Deploy our image') {
+steps{
+script {
+docker.withRegistry( '', registryCredential ) {
+dockerImage.push()
+}
+}
+}
+}
         stage('Test') {
             steps {
                 withAWS(region:'us-east-1',credentials:'aws_id')
