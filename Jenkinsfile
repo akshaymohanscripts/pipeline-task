@@ -15,6 +15,7 @@ environment{
     //gittagcommit = sh(returnStdout: true, script: 'git rev-list -n -1 "v.123-test"').trim().take(8)
     registry = "akshaymohan340/application"
     registryCredential = 'dockerhub_id'
+    ansible_cred = '943b9c16-9e94-4438-94e0-b015c6156c0a'
 }
     stages {
         stage('Build') {
@@ -27,6 +28,11 @@ environment{
                 
             }
         }
+                stage(" execute Ansible") {
+           steps {
+                ansiblePlaybook credentialsId: env.ansible_cred, disableHostKeyChecking: true, inventory: 'dev.inv', playbook: 'apache.yml'
+            }    
+        } 
     stage('Building our image') {
     steps{
     script {
