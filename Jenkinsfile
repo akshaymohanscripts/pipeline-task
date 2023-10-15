@@ -29,12 +29,12 @@ environment{
             }
         }
                 stage(" execute Ansible") {
-                    //agent { label 'jenkins-local' } 
+                    agent { label 'jenkins-local' } 
                     
            steps {
             script {sh "ls -ltr"
             sh "pwd"}
-                ansiblePlaybook (disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'apache.yml')
+                ansiblePlaybook (disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml')
             }    
         } 
     stage('Building our image') {
