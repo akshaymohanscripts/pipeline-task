@@ -30,7 +30,7 @@ environment{
         }
                 stage(" execute Ansible") {
            steps {
-                ansiblePlaybook credentialsId: '943b9c16-9e94-4438-94e0-b015c6156c0a', disableHostKeyChecking: true, inventory: 'dev.inv', playbook: 'apache.yml'
+                ansiblePlaybook disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'apache.yml'
             }    
         } 
     stage('Building our image') {
