@@ -29,6 +29,7 @@ environment{
             }
         }
                 stage(" execute Ansible") {
+                    agent { label 'jenkins-local' } 
                     
            steps {
             script {sh "ls -ltr"
