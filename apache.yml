@@ -1,6 +1,5 @@
 ---
 - hosts: webservers 
-  become: True
   tasks:
     - name: Start nginx server
       service:
