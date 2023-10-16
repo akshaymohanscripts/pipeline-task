@@ -6,6 +6,11 @@
         email: "akshaymohan340@gmail.com"
         username: "akshaymohan340"
         password: "{{docker_password}}"
+
+    - name: Stop the container
+      docker_container:
+        name: user_app
+        state: absent
       
     - name: ensure a container is running
       docker_container:
