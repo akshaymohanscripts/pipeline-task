@@ -5,13 +5,13 @@
       docker_login:
         email: "akshaymohan340@gmail.com"
         username: "akshaymohan340"
-        password: "MONday@123"
+        password: "{{docker_password}}"
       
     - name: ensure a container is running
       docker_container:
-        name: my_container
+        name: user_app
         state: started
-        image: "akshaymohan340/application:895374bb"
+        image: "akshaymohan340/application:{{COMMIT_HASH}}"
         pull: true
         ports:
           - "5000:5000"
