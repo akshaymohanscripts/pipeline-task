@@ -6,9 +6,7 @@
         email: "akshaymohan340@gmail.com"
         username: "akshaymohan340"
         password: "MONday@123"
-      vars:
-        ansible_python_interpreter: /usr/bin/python3
-
+      
     - name: ensure a container is running
       docker_container:
         name: my_container
@@ -17,5 +15,3 @@
         pull: true
         ports:
           - "5000:5000"
-      vars:
-        ansible_python_interpreter: /usr/bin/python3
