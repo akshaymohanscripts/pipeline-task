@@ -1,8 +1,0 @@
----
-- hosts: webservers 
-  tasks:
-    - name: Start nginx server
-      service:
-        name: nginx
-        state: started
-        enabled: True

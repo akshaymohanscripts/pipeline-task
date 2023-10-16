@@ -7,31 +7,28 @@ pipeline {
   }
 
   parameters {
-    string(name: 'GitTag', defaultValue: "", description: "Human Readable Git Tag/Github Release (takes precedence over GitSha)")
     string(name: 'GitSha', defaultValue: "", description: '8-chars commit SHA or docker tag')
-    string(name: 'DeployTo', defaultValue: "DEV", description: 'Pick environment to deploy to')
+    choice(name: 'DeployTo', choices: ['DEV', 'PROD'], description: 'Pick environment to deploy to')
   }
 
   environment {
     shortCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim().take(8)
-    //gittagcommit = sh(returnStdout: true, script: 'git rev-list -n -1 "v.123-test"').trim().take(8)
     registry = "akshaymohan340/application"
     registryCredential = 'dockerhub_id'
-    ansible_cred = '943b9c16-9e94-4438-94e0-b015c6156c0a'
+
   }
   stages {
     stage('Init') {
       steps {
         script {
-                      if (params.GitSha != "") {
+          if (params.GitSha != "") {
             ArtifactSha = params.GitSha
             setBuildName(buildName: "${params.DeployTo}: ${ArtifactSha}")
           } else {
             ArtifactSha = env.shortCommit
             setBuildName(buildName: "${params.DeployTo}: ${ArtifactSha}")
           }
-          
-          
+
         }
 
       }
@@ -78,14 +75,7 @@ pipeline {
         }
       }
     }
-    stage('Test') {
-      steps {
-        withAWS(region: 'us-east-1', credentials: 'aws_id') {
-          sh 'aws s3 ls'
-        }
 
-      }
-    }
   }
 }
 
