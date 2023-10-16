@@ -74,7 +74,7 @@ pipeline {
 
       steps {
         withCredentials([string(credentialsId: 'password', variable: 'password123')]) {
-          ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [COMMIT_HASH: "${ArtifactSha}", docker_password: "${password123}", host-group: "${params.DeployTo}"])
+          ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [COMMIT_HASH: "${ArtifactSha}", docker_password: "${password123}", host_group: "${params.DeployTo}"])
         }
       }
     }

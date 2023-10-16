@@ -1,4 +1,4 @@
-- hosts: "{{host-group}}"
+- hosts: "{{host_group}}"
   
   tasks:
     - name: log into docker hub registry
