@@ -1,0 +1,5 @@
+[DEV]
+172.31.10.222 ansible_user=ansible ansible_ssh_pass="{{docker_password}}"
+
+[PROD]
+

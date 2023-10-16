@@ -1,0 +1,22 @@
+- hosts: "{{host_group}}"
+  
+  tasks:
+    - name: log into docker hub registry
+      docker_login:
+        email: "akshaymohan340@gmail.com"
+        username: "akshaymohan340"
+        password: "{{docker_password}}"
+
+    - name: Stop the container
+      docker_container:
+        name: user_app
+        state: absent
+      
+    - name: ensure a container is running
+      docker_container:
+        name: user_app
+        state: started
+        image: "akshaymohan340/application:{{COMMIT_HASH}}"
+        pull: true
+        ports:
+          - "5000:5000"
