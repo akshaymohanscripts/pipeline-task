@@ -23,21 +23,42 @@ pipeline {
     stage('Init') {
       steps {
         script {
+                      if (params.GitSha != "") {
+            ArtifactSha = params.GitSha
+            setBuildName(buildName: "${params.DeployTo}: ${ArtifactSha}")
+          } else {
             ArtifactSha = env.shortCommit
-          setBuildName(buildName: "${params.DeployTo}: ${ArtifactSha}")
+            setBuildName(buildName: "${params.DeployTo}: ${ArtifactSha}")
           }
+          
+          
+        }
 
       }
     }
 
     stage('Building our image') {
+      when {
+
+        expression {
+          params.DeployTo == "DEV"
+        }
+
+      }
       steps {
         script {
-          dockerImage = docker.build registry + ":${env.shortCommit}"
+          dockerImage = docker.build registry + ":${ArtifactSha}"
         }
       }
     }
     stage('Deploy our image') {
+      when {
+
+        expression {
+          params.DeployTo == "DEV"
+        }
+
+      }
       steps {
         script {
           docker.withRegistry('', registryCredential) {
@@ -52,8 +73,9 @@ pipeline {
       }
 
       steps {
-        withCredentials([string(credentialsId: 'password', variable: 'password123')]){
-        ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [ COMMIT_HASH: "${ArtifactSha}", docker_password: "${password123}" ])}
+        withCredentials([string(credentialsId: 'password', variable: 'password123')]) {
+          ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [COMMIT_HASH: "${ArtifactSha}", docker_password: "${password123}",host-group: "${params.DeployTo}"])
+        }
       }
     }
     stage('Test') {
