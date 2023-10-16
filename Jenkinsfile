@@ -52,8 +52,8 @@ pipeline {
       }
 
       steps {
-        withCredentials([string(credentialsId: 'password', variable: 'doc-password')]){
-        ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [ COMMIT_HASH: "${ArtifactSha}", docker_password: "${doc-password}" ])}
+        withCredentials([string(credentialsId: 'password', variable: 'password123')]){
+        ansiblePlaybook(disableHostKeyChecking: true, installation: 'Ansible', inventory: 'dev.inv', playbook: 'application.yml', extraVars: [ COMMIT_HASH: "${ArtifactSha}", docker_password: "${password123}" ])}
       }
     }
     stage('Test') {
