@@ -34,7 +34,7 @@ pipeline {
       }
     }
 
-    stage('Building our image') {
+    stage('Building Image') {
       when {
 
         expression {
@@ -48,7 +48,7 @@ pipeline {
         }
       }
     }
-    stage('Deploy our image') {
+    stage('Pushing Docker Image') {
       when {
 
         expression {
@@ -64,7 +64,7 @@ pipeline {
         }
       }
     }
-    stage(" execute Ansible") {
+    stage("Deploying Application") {
       agent {
         label 'ansible-node'
       }
